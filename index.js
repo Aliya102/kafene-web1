@@ -18,6 +18,7 @@ form.submit(function(e){
       username: name,
       password: password,
     };
+    // // Checking the Username and password provided by user to meet the required condition -----
     if (name === password && name !== "" && password !== "") {
         alert("Login‌ ‌Successful");
         localStorage.setItem("loginStatus", JSON.stringify(mObj));
