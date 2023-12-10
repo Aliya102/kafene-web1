@@ -16,7 +16,8 @@ $.ajax({
         console.log(error);
     }
 })
- 
+
+//function to render user-data 
 let tableBody = document.getElementById("tableBody");
 function rowMaking(data) {
     tableBody.innerHTML = "";
@@ -33,16 +34,18 @@ function rowMaking(data) {
     }
 }
 
+//Selecting SearchBox by its ID
 let inputVal = document.getElementById("search-box");
-$(`#cross`).click(() => { 
+$(`#cross`).click(() => { //to clear typed data in searchBox
     inputVal.value = "";
 });
 
-$(`#reset`).click(() => { 
+$(`#reset`).click(() => { //to Reset searchBox and load back users data as it was in the beginning without any search/filter application
     inputVal.value = "";
     rowMaking(tableData);
 });
 
+//to get count of searchBox input value and if its greater than 0, display icon X, else keep hidden
 setInterval(() => {
     var search = document.getElementById("search-box").value.length;
     if (search > 0) {
@@ -66,6 +69,7 @@ document.getElementById("searchForm").onsubmit = (e) => {
     }
 };
 
+//Main Search Function to filter out names based on Value Entered by client. checking in the fullname. 
 function search(value, data) {
     var newData = [];
     for (var i = 0; i < data.length; i++) {
