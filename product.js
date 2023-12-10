@@ -4,7 +4,7 @@ if(loginCredentials == null || loginCredentials == "false"){
     location.assign("./index.html");
 }
 
-
+// fetch orders data from the given API
 var orderData;
 $.ajax({
     url: "https://5fc1a1c9cb4d020016fe6b07.mockapi.io/api/v1/products",
@@ -20,6 +20,7 @@ $.ajax({
 })
 
 let tableData = document.getElementById("table-data");
+// dynamically creating table rows to display content from API
 function createTableRow(data) {
     tableData.innerHTML="";
     for (let i = 0; i < data.length; i++) {
@@ -38,11 +39,13 @@ function createTableRow(data) {
   lowStockItems = [];
 }
 
+// Filters-options to be checked and unchecked
 var filteredData = [];
 function filterOptions() {
   for (var i = 0; i < 2; i++) {
     let checkStatus = document.getElementById(`check-${i}`);
     if (checkStatus.checked === true) {
+    //pushing label Values of checkboxes inside filteredData array
       filteredData.push(checkStatus.name);
     }
   }
@@ -50,17 +53,18 @@ function filterOptions() {
   filteredData = [];
 }
 
+//getting data as per checkBox Selected
 function getFilteredItems(data) {
   if (data.length == 2) {
     createTableRow(orderData);
   } 
   else if (data.length == 1) {
     if (data[0] == "expired") {
-        var newData = getExpiredItems(orderData); 
+        var newData = getExpiredItems(orderData); //will return only expired items
         createTableRow(newData);
     } 
     else {
-        var newData = getLowStockItems(orderData);
+        var newData = getLowStockItems(orderData); //will return only low stock items (i.e < 100)
         createTableRow(newData);
     }
   } 
@@ -70,6 +74,7 @@ function getFilteredItems(data) {
   }
 }
 
+// Getting Low-stock Items that are less than 100
 var lowStockItems = [];
 function getLowStockItems(orderData) {
   for (var i = 0; i < orderData.length; i++) {
@@ -80,16 +85,17 @@ function getLowStockItems(orderData) {
   return lowStockItems;
 }
 
+//Getting Expired Items compared to the current date
 var expiredItems = [];
 function getExpiredItems(orderData) {
   let today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0); //to have single value based on hrs,min,sec,ms
   for (let i = 0; i < orderData.length; i++) {
     const dateFormat = orderData[i].expiryDate;
     
-    var varDate = new Date(dateFormat); 
+    var varDate = new Date(dateFormat); //in dd-mm-YYYY format
     
-    varDate.setHours(0,0,0,0); 
+    varDate.setHours(0,0,0,0); ////to have single value based on hrs,min,sec,ms
     if (varDate < today) {
       expiredItems.push(orderData[i]);
     }
