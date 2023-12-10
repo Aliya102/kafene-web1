@@ -5,6 +5,7 @@ if(loginCredentials == null || loginCredentials == "false"){
 
 let tableData = document.getElementById("table-data");
 
+// dynamically creating table rows to display the content from API
 function createTableRow(data) {
     tableData.innerHTML="";
   for (let i = 0; i < data.length; i++) {   
@@ -22,6 +23,7 @@ function createTableRow(data) {
   document.getElementById("table-count").innerHTML = `count: ${data.length} `;
 }
 
+// fetching orders data from the given API
 var orderData;
 $.ajax({
     url: "https://5fc1a1c9cb4d020016fe6b07.mockapi.io/api/v1/orders",
@@ -36,11 +38,13 @@ $.ajax({
     }
 })
 
+// Filters-options that can be checked and unchecked
 var filteredData = [];
 function filterOptions() {
   for (var i = 0; i < 4; i++) {
     let checkStatus = document.getElementById(`check-${i}`);
     if (checkStatus.checked === true) {        
+        //pushing label Values of checkboxes inside filteredData array
         filteredData.push(checkStatus.name);
     }
   }
@@ -56,6 +60,7 @@ $(".check-boxes").on("change", function () {
 function getCheckedItems(orderData, filteredData) {
   let data = orderData;
   var getCheckedRows = data.filter(function (store) {
+    //returning data with orderStatus found (i.e=> >-1)
     return filteredData.indexOf(store.orderStatus) > -1;
   });
   createTableRow(getCheckedRows);
